@@ -178,6 +178,10 @@ body::before {
 	margin-top: 0px;
 }
 
+.projectPoints {
+	margin-bottom: 20px;
+}
+
 .imgPanel {
 	display: flex;
 	gap: 10px;

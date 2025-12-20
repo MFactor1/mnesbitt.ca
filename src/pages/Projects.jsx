@@ -10,6 +10,7 @@ import hhdemo2 from '../assets/images/MenuShowcase.gif'
 import iedemo from '../assets/images/Explorer.png'
 import geolens1 from '../assets/images/GeoLensLogin.gif'
 import geolens2 from '../assets/images/GeoLensDetermination.png'
+import windex from '../assets/images/windex_diagram.png'
 import Footer from '../components/Footer'
 
 import Collapsible from '../components/Collapsible'
@@ -20,6 +21,7 @@ export default function Projects() {
   return (
     <>
       <ProjectsProvider>
+        <ProjectWindex projectId='10' />
         <ProjectGeoLens projectId='9' />
         <ProjectAccCom projectId='1' />
         <ProjectGAC projectId='2'/>
@@ -31,6 +33,71 @@ export default function Projects() {
         <ProjectMazeSolver projectId='8' />
       </ProjectsProvider>
       <Footer />
+    </>
+  );
+}
+
+function ProjectWindex({ projectId }) {
+  const { expandedProject, toggleProject } = useProjectsState();
+
+  const isExpanded = expandedProject === projectId;
+
+  return (
+    <>
+      <ScrollFade>
+        <header className="projectHeader">
+          <a className="projectTitle" href="https://github.com/MFactor1/WikiSearch" target="_blank">WikiSearch</a>
+          <p className="projectSkills">Built With: golang, redis, mongodb</p>
+        </header>
+      </ScrollFade>
+      <ScrollFade>
+        <p className="projectSummary">
+          2.9 <b>Billion</b> Words.<br/>
+          My own home-grown search engine, that indexes all of Wikipedia.
+        </p>
+      </ScrollFade>
+      <Collapsible isExpanded={isExpanded}>
+        <div className="projectDesc">
+          <ScrollFade>
+            <p>
+              2.9 Billion. That's the number of words WikiSearch indexes. (2 966 203 491 to be exact)<br/>
+              WikiSearch is a high-performance search and indexing engine written in golang.<br/>
+              WikiSearch is broken up into three stages, data collection, data processing, and data presentation.<br/>
+              Data collection is performed via wxcrawler if you wish to crawl the Wikipedia site for page data, but alternatively,
+              you can use wxunpacker to read data from Wikipedia's own xml dumps instead, for a much faster and more ethical approach.<br/>
+              Data processing is handled by wxindexer, which calcuates per-page term frequency, corpus term-frequency, both used to
+              calcuate Term Frequency-Inverse Document Frequency (TF-IDF) scores, which are ultimately used by the search engine.<br/>
+              wxindexer also calculates PageRank scores, which are combined with TF-IDF scores in wxdb to provide search
+              results to the user in the data presentation phase.
+            </p>
+          </ScrollFade>
+        </div>
+        <div className="projectPoints">
+          <ScrollFade>
+            Some extra technical details:
+            <ul>
+              <li>All three stages are separate processes, using UNIX sockets for IPC.</li>
+              <li>Corpus TF encodings are stored in Redis, and per-page TF encodings are stored in a long .jsonl file.</li>
+              <li>
+                PageRank score is calculated by building a directed graph of all of Wikipedia, with edges as page references and nodes as pages.
+                Each node is initialized with a starting score, then an algorithm iteratively traverses the graph, transferring score between nodes.
+                This traversal is repeated until the total change in score across the graph is below a threshold.
+              </li>
+              <li>Mongodb stores the highest scoring pages for each term in the corpus, in order of PageRank score. User queries are broken into these terms to find search results.</li>
+            </ul>
+          </ScrollFade>
+        </div>
+        <ScrollFade>
+          <div className="imgPanel">
+            <img className="displayImage" src={windex} alt="Data Flow Diagram for WikiIndex" style={{maxHeight: '52vh', maxWidth: '90vw'}}/>
+          </div>
+        </ScrollFade>
+      </Collapsible>
+      <ScrollFade>
+        <span className="showMore" onClick={() => toggleProject(projectId)}>
+          {isExpanded ? 'Show Less' : '-> Show More'}
+        </span>
+      </ScrollFade>
     </>
   );
 }

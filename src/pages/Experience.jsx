@@ -16,6 +16,25 @@ export default function Experience() {
       <div className="jobDesc">
         <ScrollFade>
           <p className="jobSkills">
+            Used: Python, PyTorch, TensorRT, ONNX, numPy, CUDA
+          </p>
+        </ScrollFade>
+        <div className="jobPoints">
+          <ScrollFade><li>Worked with a small team to spearhead the first AI features into our existing product, iterating expeditiously to get them in the hands of customers.</li></ScrollFade>
+          <ScrollFade><li>Developed a comprehensive, fast, inference engine that <b>beats</b> alternatives like Ultralytics, and shipped to customers <b>within a month</b> of the initiative.</li></ScrollFade>
+          <ScrollFade><li>Built a scalable, automated model training process to allow constant, scientific, and reproducable model training sessions, maximizing hardware uptime.</li></ScrollFade>
+          <ScrollFade><li>Transitioned our flagship product from Python 2 to Python 3, all while coordinating ongoing development with and educating my team, minimizing customer impact.</li></ScrollFade>
+        </div>
+      </div>
+      <ScrollFade>
+        <header>
+          <h3 className="jobTitle">Software Design Engineer - Intern</h3>
+          <p className="companyName">Evertz Microsystems</p>
+        </header>
+      </ScrollFade>
+      <div className="jobDesc">
+        <ScrollFade>
+          <p className="jobSkills">
             Used: Python, Gevent, Jenkins, Linux, MAKE, Jira, GCS, Amazon S3, Azure Blob Storage
           </p>
         </ScrollFade>
