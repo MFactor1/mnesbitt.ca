@@ -18,15 +18,14 @@ export default function Home() {
         </div>
       </ScrollFade>
       <div className="bio" style={{ maxWidth: isMobile ? '100vw' : '50vw' }}>
-        <ScrollFade><p>Hi! I’m Matthew Nesbitt, a third-year Software Engineering student at McMaster University with a 3.9 CGPA who’s happiest when difficult problems meet elegant code.</p></ScrollFade>
-        <ScrollFade><p><i>What drives me?</i> Building and optimizing real-world systems. I’ve modernized a legacy multi-million-dollar Python 2 broadcast platform at Evertz, halving
-        CI build times with Docker caching and accelerating cloud video exports 6× by re-architecting file pipelines. I also lead AI initiatives at MacAI, where my
-        team shipped NoteFlow— an NLP summarizer powered by spaCy, TextRank, and T5 transformers that we presented at CUCAI 2024.</p></ScrollFade>
-        <ScrollFade><p><i>Why are my skills top-notch?</i> Depth and range. From low-level C/C++ to full-stack TypeScript/React/Electron, from SQLite local storage to cloud object
-        stores (Azure Blob, S3, GCS), I pair solid fundamentals: data structures, concurrency and testing, with practical tooling: Docker, Jenkins, gevent, systemd, and
-        rpm/dpkg packaging. I thrive in Linux, automate everything with git and Bash, and enjoy mentoring. I'm currently scaling MacAI’s projects division and budget to deliver impactful research.</p></ScrollFade>
-        <ScrollFade><p>Whether porting multi-million-dollar codebases, designing clean UIs, or leading cross-functional teams, I bring curiosity, discipline, and a proven
-        record of turning ambitious ideas into robust software. Let’s build something remarkable together.</p></ScrollFade>
+        <ScrollFade><p>Hi! I’m Matthew, a fourth-year Software Engineering student at McMaster University with a drive to <b>build</b>.</p></ScrollFade>
+        <ScrollFade><p>I <i>thrive</i> in environments where potocols are <i>optional</i>, oversight is <i>minimal</i>, and prototyping fast is a <i>top priority</i>.</p></ScrollFade>
+        <ScrollFade><p>Right now I'm focused on:</p></ScrollFade>
+        <ul>
+          <ScrollFade><li>Building and shipping the first major AI features to our customers at Evertz.</li></ScrollFade>
+          <ScrollFade><li>Rapidly iterating to create a real-time computer vision inference engine that beats alternatives like Ultralytics.</li></ScrollFade>
+          <ScrollFade><li>Building and deploying robust internal tools to train AI models in a large-scale scientific, reproducible manner.</li></ScrollFade>
+        </ul>
 			</div>
       <Footer />
 		</>

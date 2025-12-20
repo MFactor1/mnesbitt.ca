@@ -21,7 +21,7 @@ export default function Experience() {
         </ScrollFade>
         <div className="jobPoints">
           <ScrollFade><li>Worked with a small team to spearhead the first AI features into our existing product, iterating expeditiously to get them in the hands of customers.</li></ScrollFade>
-          <ScrollFade><li>Developed a comprehensive, fast, inference engine that <b>beats</b> alternatives like Ultralytics, and shipped to customers <b>within a month</b> of the initiative.</li></ScrollFade>
+          <ScrollFade><li>Developed a comprehensive, real-time computer vision inference engine that <b>beats</b> alternatives like Ultralytics, and shipped to customers <b>within a month</b> of the initiative.</li></ScrollFade>
           <ScrollFade><li>Built a scalable, automated model training process to allow constant, scientific, and reproducable model training sessions, maximizing hardware uptime.</li></ScrollFade>
           <ScrollFade><li>Transitioned our flagship product from Python 2 to Python 3, all while coordinating ongoing development with and educating my team, minimizing customer impact.</li></ScrollFade>
         </div>
