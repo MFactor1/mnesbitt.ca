@@ -2,6 +2,7 @@ import React from 'react'
 import { createContext, useContext, useState, useRef, useEffect} from 'react';
 
 import { ForceScrollUpdateForDuration } from './ForceScrollUpdate';
+import { StaggerHiddenContext } from './PageStaggerContext';
 
 export default function Collapsible({ children, isExpanded, duration = 500 }) {
   const contentRef = useRef(null);
@@ -43,7 +44,11 @@ export default function Collapsible({ children, isExpanded, duration = 500 }) {
         marginBottom: '0px'
       }}
     >
-      {children}
+      {/* Children are hidden at page mount (height-collapsed): tell their
+          ScrollFades not to claim stagger indices (see PageStaggerContext). */}
+      <StaggerHiddenContext.Provider value={true}>
+        {children}
+      </StaggerHiddenContext.Provider>
     </div>
   );
 };
