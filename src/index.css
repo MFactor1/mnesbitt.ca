@@ -38,24 +38,36 @@ body {
 	padding: 0;
 	height: 100%;
 	color: var(--text);
-	background-image: var(--bg-image);
-	background-size: cover;
-	background-position: center center;
-	background-attachment: fixed;
-	background-repeat: no-repeat;
 	transition: color 0.3s ease;
 }
 
+/* Backdrop layers: wallpaper (html::before) + darkening/lightening veil
+   (body::before), both position:fixed and oversized with a negative inset.
+   On iOS, body background-attachment: fixed is painted against a different
+   (larger) viewport than position: fixed insets use, and when Safari grows
+   the visual viewport (e.g. on scroll with the address bar) edges of the
+   un-veiled wallpaper appear beyond the overlay's bounds. Overscanning both
+   layers keeps them covering the visual viewport regardless. */
+html::before {
+	content: '';
+	position: fixed;
+	inset: -80px;
+	z-index: -2;
+	background-image: var(--bg-image);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	pointer-events: none;
+}
+
 body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: var(--overlay);
-  z-index: -1;
-  transition: background-color 0.3s ease;
+	content: '';
+	position: fixed;
+	inset: -80px;
+	z-index: -1;
+	background-color: var(--overlay);
+	transition: background-color 0.3s ease;
+	pointer-events: none;
 }
 
 .themeToggle {
