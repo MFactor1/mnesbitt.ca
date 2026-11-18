@@ -54,33 +54,24 @@ body {
 	margin: 0;
 }
 
-/* Backdrop layers: wallpaper (html::before) + darkening/lightening veil
-   (body::before), both position:fixed and oversized with a negative inset.
-   On iOS, body background-attachment: fixed is painted against a different
-   (larger) viewport than position: fixed insets use, and when Safari grows
-   the visual viewport (e.g. on scroll with the address bar) edges of the
-   un-veiled wallpaper appear beyond the overlay's bounds. Overscanning both
-   layers keeps them covering the visual viewport regardless. */
-html::before {
-	content: '';
-	position: fixed;
-	inset: -80px;
-	z-index: -2;
-	background-image: var(--bg-image);
+/* Backdrop: wallpaper + veil painted as one background stack on the root
+   element (= the canvas), NOT on position:fixed pseudo-elements. The canvas
+   is the only thing guaranteed to cover the entire screen on iOS — including
+   the notch curves, the area behind the status bar, and whatever band Safari
+   exposes as its toolbars expand/compact — whereas fixed insets resolve
+   against a smaller rect there (and re-anchor when toolbar state changes),
+   leaving gaps at the top/bottom edges. Two layers, one paint area: the veil
+   is a solid gradient (first = on top) over the cover-sized image; both are
+   canvas-fixed, so they can never drift apart or miss an edge. */
+html {
+	background-image: linear-gradient(var(--overlay), var(--overlay)), var(--bg-image);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	pointer-events: none;
-}
-
-body::before {
-	content: '';
-	position: fixed;
-	inset: -80px;
-	z-index: -1;
-	background-color: var(--overlay);
-	transition: background-color 0.3s ease;
-	pointer-events: none;
+	background-attachment: fixed, fixed;
+	/* Best-effort theme crossfade: browsers that can interpolate the veil
+	   gradient animate it; others snap (the image layer never animates). */
+	transition: background-image 0.3s ease;
 }
 
 .themeToggle {
