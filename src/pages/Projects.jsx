@@ -11,16 +11,21 @@ import iedemo from '../assets/images/Explorer.png'
 import geolens1 from '../assets/images/GeoLensLogin.gif'
 import geolens2 from '../assets/images/GeoLensDetermination.png'
 import windex from '../assets/images/windex_diagram.png'
+import raytracer1 from '../assets/images/raytracer_cornell.jpg'
+import raytracer2 from '../assets/images/raytracer_spheres.jpg'
 import Footer from '../components/Footer'
 
 import Collapsible from '../components/Collapsible'
 import ScrollFade from '../components/ScrollFade'
+import useIsMobile from '../components/IsMobile'
 import {useProjectsState, ProjectsProvider} from '../components/ProjectsContext'
 
 export default function Projects() {
   return (
     <>
       <ProjectsProvider>
+        <ProjectLake projectId='12' />
+        <ProjectRayTracer projectId='11' />
         <ProjectWindex projectId='10' />
         <ProjectGeoLens projectId='9' />
         <ProjectAccCom projectId='1' />
@@ -33,6 +38,107 @@ export default function Projects() {
         <ProjectMazeSolver projectId='8' />
       </ProjectsProvider>
       <Footer />
+    </>
+  );
+}
+
+function ProjectLake({ projectId }) {
+  const { expandedProject, toggleProject } = useProjectsState();
+
+  const isExpanded = expandedProject === projectId;
+
+  return (
+    <>
+      <ScrollFade>
+        <header className="projectHeader">
+          <a className="projectTitle" href="https://github.com/CinqGarcons/Lake" target="_blank">Lake</a>
+          <p className="projectSkills">Built With: Rust, Python, ggml</p>
+        </header>
+      </ScrollFade>
+      <ScrollFade>
+        <p className="projectSummary">
+          A distributed LLM inference engine that pools a user's devices on a local network to <b>privately</b> run large language models too large for any single machine.
+        </p>
+      </ScrollFade>
+      <Collapsible isExpanded={isExpanded}>
+        <div className="projectDesc">
+          <ScrollFade>
+            <p className="projectDescFirstLine">
+              Lake lets you run large language models across a <b>pool of everyday devices</b> on your local network, splitting a model across machines
+              so you can privately serve models too big to fit on any single one &mdash; no data ever leaves your hardware.
+            </p>
+          </ScrollFade>
+          <ScrollFade>
+            <p>
+              Designed with a five-person team to partition transformer models across a heterogeneous device pool, Lake pairs a <b>Rust inference engine</b> built directly on <b>ggml</b> (the tensor library underlying llama.cpp) with a Python coordinator.
+              The system dynamically <b>reallocates layers</b> as devices join or leave the network, and serves multiple requests concurrently across the whole cluster.
+            </p>
+          </ScrollFade>
+          <ScrollFade>
+            <p>
+              I led the project's <b>high-level system design</b> and built its Rust runtime components (the inference engine and Tensor I/O),
+              in addition to its multi-language developer tooling (just, uv, Cargo) and CI pipeline.
+            </p>
+          </ScrollFade>
+        </div>
+      </Collapsible>
+      <ScrollFade>
+        <span className="showMore" onClick={() => toggleProject(projectId)}>
+          {isExpanded ? 'Show Less' : '-> Show More'}
+        </span>
+      </ScrollFade>
+    </>
+  );
+}
+
+function ProjectRayTracer({ projectId }) {
+  const { expandedProject, toggleProject } = useProjectsState();
+  const isMobile = useIsMobile();
+
+  const isExpanded = expandedProject === projectId;
+
+  return (
+    <>
+      <ScrollFade>
+        <header className="projectHeader">
+          <a className="projectTitle" href="https://github.com/MFactor1/raytracer" target="_blank">Ray Tracer</a>
+          <p className="projectSkills">Built With: Rust</p>
+        </header>
+      </ScrollFade>
+      <ScrollFade>
+        <p className="projectSummary">
+          A <b>Monte Carlo path tracing</b> renderer written from scratch in Rust.
+        </p>
+      </ScrollFade>
+      <Collapsible isExpanded={isExpanded}>
+        <div className="projectDesc">
+          <ScrollFade>
+            <p className="projectDescFirstLine">
+              A physically-based renderer written in Rust from the ground up, following the three-book <i>Ray Tracing in One Weekend</i> series,
+              with several additions of my own: <b>GGX micro-facet scattering</b>, a <b>bounding volume hierarchy</b> for fast ray intersection,
+              and <b>multi-threaded rendering</b>.
+            </p>
+          </ScrollFade>
+          <ScrollFade>
+            <p>
+              The renderer supports a range of materials (Lambertian, metal, dielectric, emissive, and GGX rough metal), geometric primitives
+              (spheres, quads, boxes, and moving objects), and <b>Perlin noise</b>, solid, and image-based textures. A bounding volume hierarchy
+              keeps ray&ndash;scene intersection near logarithmic, while a work-stealing thread pool renders tiles in parallel for fast, physically-based images.
+            </p>
+          </ScrollFade>
+        </div>
+        <ScrollFade>
+          <div className="imgPanel" style={{ flexDirection: isMobile ? 'column' : 'row' }}>
+            <img className="displayImage" src={raytracer1} alt="Fancy Cornell box rendered with the path tracer" style={{maxHeight: '31vh', maxWidth: isMobile ? '90vw' : '40vw'}}/>
+            <img className="displayImage" src={raytracer2} alt="Field of textured spheres rendered with the path tracer" style={{maxHeight: '31vh', maxWidth: isMobile ? '90vw' : '40vw'}}/>
+          </div>
+        </ScrollFade>
+      </Collapsible>
+      <ScrollFade>
+        <span className="showMore" onClick={() => toggleProject(projectId)}>
+          {isExpanded ? 'Show Less' : '-> Show More'}
+        </span>
+      </ScrollFade>
     </>
   );
 }
