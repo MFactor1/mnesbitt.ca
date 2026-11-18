@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="theme-color" content="#000000">
     <title>Matthew Nesbitt</title>
+    <script>
+      // Apply saved theme before first paint (default: dark) so light-mode
+      // users never see a dark flash on load.
+      try {
+        document.documentElement.setAttribute('data-theme',
+          localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -16,18 +16,34 @@
 	box-sizing: border-box;
 }
 
+/* Theme tokens: dark is the default (no data-theme attribute needed). */
+:root {
+	--text: #ffffff;
+	--bg-image: url('./assets/backspash/Aurora_Mac.jpg');
+	--overlay: rgba(0, 0, 0, 0.6);
+	color-scheme: dark;
+}
+
+html[data-theme="light"] {
+	--text: #24252a;
+	--bg-image: url('./assets/backspash/BOP_Mac.jpg');
+	--overlay: rgba(255, 255, 255, 0.75);
+	color-scheme: light;
+}
+
 body {
 	font-family: Global, sans-serif;
 	margin: 80px 3vw;
 	font-size: 14px;
 	padding: 0;
 	height: 100%;
-	color: #ffffff;
-	background-image: url('./assets/backspash/Aurora_Mac.jpg');
+	color: var(--text);
+	background-image: var(--bg-image);
 	background-size: cover;
 	background-position: center center;
 	background-attachment: fixed;
 	background-repeat: no-repeat;
+	transition: color 0.3s ease;
 }
 
 body::before {
@@ -37,8 +53,46 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--overlay);
   z-index: -1;
+  transition: background-color 0.3s ease;
+}
+
+.themeToggle {
+	position: fixed;
+	top: 16px;
+	right: 22px;
+	z-index: 10;
+	background: none;
+	border: none;
+	color: var(--text);
+	font-family: GlobalItalic, sans-serif;
+	font-size: 13px;
+	cursor: pointer;
+	padding: 6px 10px;
+	opacity: 0.85;
+	user-select: none;
+	transition: opacity 0.2s ease, color 0.3s ease;
+}
+
+.themeToggle:hover {
+	text-decoration: underline;
+	opacity: 1;
+}
+
+/* Mobile: render the toggle in the header's flow instead of pinned, so it
+   never overlaps scrolled text. Negative top pulls it into the body margin,
+   positive bottom keeps the title roughly where it was. */
+.themeToggle.themeToggleInline {
+	position: static;
+	opacity: 1;
+	padding: 2px 8px;
+}
+
+.mobileThemeRow {
+	text-align: right;
+	margin-top: -56px;
+	margin-bottom: 36px;
 }
 
 .headerbar {
@@ -74,7 +128,7 @@ body::before {
 }
 
 .navbar a {
-	color: #ffffff;
+	color: var(--text);
 	text-decoration: none;
 	font-family: GlobalItalic;
 }
@@ -106,12 +160,12 @@ body::before {
 	flex: 1;
 	min-width: 0px;
 	user-select: none;
-	color: white;
+	color: var(--text);
 }
 
 .navUnderline {
 	height: 1px;
-	background: white;
+	background: var(--text);
 	position: absolute;
 	left: 20px;
 	right: 20px;
@@ -122,7 +176,7 @@ body::before {
 
 .mobileNavUnderline {
 	height: 1px;
-	background: white;
+	background: var(--text);
 	position: absolute;
 	width: 100px;
 	bottom: 0;
@@ -145,7 +199,7 @@ body::before {
 
 .projectTitle {
 	margin-bottom: 1px;
-	color: #ffffff;
+	color: var(--text);
 	text-decoration: none;
 	font-size: 16.3px;
 	font-weight: bold;
@@ -157,7 +211,7 @@ body::before {
 
 .projectTitleNoLink {
 	margin-bottom: 1px;
-	color: #ffffff;
+	color: var(--text);
 	text-decoration: none;
 	font-size: 16.3px;
 	font-weight: bold;
@@ -211,7 +265,7 @@ body::before {
 .readingsHeaders {
 	margin-top: 20px;
 	margin-bottom: 10px;
-	color: #ffffff;
+	color: var(--text);
 	text-decoration: none;
 	font-size: 16.3px;
 	font-weight: bold;
@@ -233,7 +287,7 @@ footer hr {
 
 .footerLinks a {
 	margin-right: 20px;
-	color: #ffffff;
+	color: var(--text);
 	text-decoration: none;
 }
 
