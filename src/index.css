@@ -16,17 +16,12 @@
 	box-sizing: border-box;
 }
 
-/* Theme tokens: dark is the default (no data-theme attribute needed).
-   --canvas-* = the edge-bar fallback gradient, sampled from each wallpaper's
-   true top/bottom edge rows and veil-blended, so the bars meet the image
-   seamlessly (--canvas-mid doubles as the theme-color for Safari's chrome). */
+/* Theme tokens: dark is the default (no data-theme attribute needed). */
 :root {
 	--text: #ffffff;
 	--bg-image: url('./assets/backspash/Aurora_Mac.jpg');
 	--overlay: rgba(0, 0, 0, 0.6);
-	--canvas-top: #1e1721;
-	--canvas-mid: #1a1722;
-	--canvas-bottom: #02030b; /* aurora's bottom edge is a dark letterbox band */
+	--canvas: #1a1722; /* sampled: Aurora average under the 0.6 veil */
 	color-scheme: dark;
 }
 
@@ -34,9 +29,7 @@ html[data-theme="light"] {
 	--text: #24252a;
 	--bg-image: url('./assets/backspash/BOP_Mac.jpg');
 	--overlay: rgba(255, 255, 255, 0.75);
-	--canvas-top: #ccd5dc;
-	--canvas-mid: #dbcbcc;
-	--canvas-bottom: #d8c1c4;
+	--canvas: #dbcbcc; /* sampled: BOP average under the 0.75 veil */
 	color-scheme: light;
 }
 
@@ -74,21 +67,12 @@ body {
      momentum scrolls on the compositor while JS follows on rAF.
    The accepted trade (user-approved): the fixed layer paints the wallpaper
    across the visual viewport rock-steadily (zero scroll JS), and the edge
-   bars outside it get a vertical gradient (see html rule) whose edge stops
-   are sampled from the wallpaper's own top/bottom edge rows under its veil,
-   so bar meets image seamlessly; theme-color matches --canvas-mid so
-   Safari's chrome joins the same color field. */
+   bars outside it fall back to --canvas — each theme's wallpaper average
+   color sampled under its veil — which the theme-color meta matches in
+   Safari's own chrome, so bar + toolbar read as one deliberate color field
+   rather than a gap. */
 html {
-	/* Vertical edge-bar gradient fill: viewport-anchored (fixed) so its
-	   --canvas-top/--canvas-bottom stops sit exactly at the screen edges and
-	   match the image's own edge colors; the middle stop exists only to keep
-	   the ramp gentle (the fixed layer hides it). Smooth and scroll-independent,
-	   so iOS's canvas-pan quirks are invisible on a gradient. */
-	background-image: linear-gradient(180deg, var(--canvas-top) 0%, var(--canvas-mid) 50%, var(--canvas-bottom) 100%);
-	background-size: cover;
-	background-position: center center;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
+	background-color: var(--canvas); /* the accepted edge-bar fill */
 }
 
 .bgLayer {
