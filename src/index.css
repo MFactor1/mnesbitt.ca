@@ -56,58 +56,34 @@ body {
 	margin: 0;
 }
 
-/* Backdrop: full-screen static wallpaper + veil. iOS Safari forecloses the
-   two obvious mechanisms (proven empirically on-device):
-   - position: fixed elements are clipped to the *visual viewport* rect —
-     they can never paint behind the status bar or the bottom toolbar, no
-     matter the overscan (bands persisted through inset:-80px and
-     calc(-100px - env(...)) builds);
-   - canvas backgrounds with background-attachment: fixed get zoomed to the
-     document length and panned against scroll (the "image scrolls and
-     dynamically zooms" build).
-   The workaround: the wallpaper lives inside a document-sized
-   overflow:hidden frame (absolute — paints the *full* screen, bands
-   included, since document overflow is the full screen; the frame adds no
-   scroll overflow, so no feedback loop) and is counter-translated by
-   translateY(scrollY) via Motion — the exact pipeline this site's content
-   animations already run on, so the pin feels identical to the fades. The
-   120px overscan absorbs toolbar height + safe areas; --canvas (sampled per
-   theme) catches anything beyond, e.g. deep rubber-band overscroll. The
-   function-form transform also keeps Motion from compiling it onto the
-   native scroll-timeline path (iOS, see ScrollFade.jsx). */
+/* Backdrop: full-screen static wallpaper + veil — final iOS-safe design.
+   Every mechanism that could paint the wallpaper into the status-bar/toolbar
+   bands was tried on-device and failed in a distinct way:
+   - canvas background + attachment: fixed -> iOS zooms it to document length
+     and pans it against scroll;
+   - position: fixed layers (pseudo or div, any overscan) -> clipped to the
+     layout viewport, bands persist and grow with the expanded toolbar;
+   - document-space layer + JS counter-translate -> jitter, because iOS
+     momentum scrolls on the compositor while JS follows on rAF.
+   The accepted trade (user-approved): the fixed layer paints the wallpaper
+   across the visual viewport rock-steadily (zero scroll JS), and the edge
+   bars outside it fall back to --canvas — each theme's wallpaper average
+   color sampled under its veil — which the theme-color meta matches in
+   Safari's own chrome, so bar + toolbar read as one deliberate color field
+   rather than a gap. */
 html {
-	background-color: var(--canvas); /* backdrop-tinted canvas: catches rubber-band overscroll beyond the frame */
-}
-
-#root {
-	position: relative; /* containing block for the backdrop frame */
+	background-color: var(--canvas); /* the accepted edge-bar fill */
 }
 
 .bgLayer {
-	position: absolute;
-	top: -80px; /* cancel body's top margin: frame must start at the document (screen) top */
-	left: calc(-1 * max(3vw, env(safe-area-inset-left)));
-	width: calc(100vw + max(3vw, env(safe-area-inset-left)) + max(3vw, env(safe-area-inset-right)));
-	/* = html's scroll extent: body margin-box = #root height + its 80px top
-	   margin + its bottom margin (80px + env()). Using anything larger would
-	   grow the document, and with it the scroll range, forever. */
-	height: calc(100% + 160px + env(safe-area-inset-bottom));
-	overflow: hidden; /* contains the overscanned paper; frame itself never grows the document */
-	z-index: -1;
-	pointer-events: none;
-}
-
-.bgPaper {
-	position: absolute;
-	top: -120px;
-	left: -120px;
-	width: calc(100% + 240px);
-	height: calc(100lvh + 240px); /* lvh = constant per orientation => no re-zoom as toolbars morph */
+	position: fixed;
+	inset: 0;
 	background-image: linear-gradient(var(--overlay), var(--overlay)), var(--bg-image);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	will-change: transform;
+	z-index: -1;
+	pointer-events: none;
 }
 
 .themeToggle {
