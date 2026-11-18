@@ -10,8 +10,10 @@
       // Apply saved theme before first paint (default: dark) so light-mode
       // users never see a dark flash on load.
       try {
-        document.documentElement.setAttribute('data-theme',
-          localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
+        const t = localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', t);
+        document.querySelector('meta[name="theme-color"]')
+          .setAttribute('content', t === 'light' ? '#dbcbcc' : '#1a1722');
       } catch (e) {
         document.documentElement.setAttribute('data-theme', 'dark');
       }

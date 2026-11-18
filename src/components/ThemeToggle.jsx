@@ -12,6 +12,10 @@ const ThemeToggle = ({ inline = false }) => {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    // Safari's toolbar/status chrome tints itself from this; keep it matched
+    // to the theme's backdrop color so the chrome dissolves into the wallpaper.
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#dbcbcc' : '#1a1722');
   }, [theme]);
 
   return (

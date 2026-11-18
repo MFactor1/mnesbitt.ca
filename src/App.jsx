@@ -1,6 +1,6 @@
 import React from 'react'
 import { Analytics } from "@vercel/analytics/react"
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 
 import resume from './assets/Resume.pdf'
@@ -101,6 +101,20 @@ function Nav() {
   );
 }
 
+function Backdrop() {
+  const { scrollY } = useScroll();
+  // Function form (not a range map) so Motion keeps this JS-driven and can't
+  // compile it onto the native scroll-timeline path (see ScrollFade.jsx).
+  const y = useTransform(scrollY, (v) => v);
+  return (
+    <div className="bgLayer" aria-hidden="true">
+      {/* Document-space frame + JS-pinned paper: see .bgLayer/.bgPaper in
+          index.css for why fixed and canvas-attachment both fail on iOS. */}
+      <motion.div className="bgPaper" style={{ y }} />
+    </div>
+  );
+}
+
 export default function App() {
   const isMobile = useIsMobile();
   const location = useLocation();
@@ -109,7 +123,7 @@ export default function App() {
 
   return (
     <>
-      <div className="bgLayer" aria-hidden="true"></div> {/* fixed full-screen wallpaper+veil (see .bgLayer in index.css for why) */}
+      <Backdrop /> {/* full-screen static wallpaper+veil (see .bgLayer/.bgPaper in index.css for why) */}
       <div style = {{ position: 'absolute', height: '101vh', width: '1px', top: '0px', left: '0px' }}></div> {/* empty div forcing a scroll bar on all pages (otherwise ForceScrollUpdate won't work)*/}
         {!isMobile && <ThemeToggle />}
         <header className="headerbar">

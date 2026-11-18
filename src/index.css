@@ -56,38 +56,58 @@ body {
 	margin: 0;
 }
 
-/* Backdrop: a real fixed-position element (rendered in App.jsx) painting the
-   wallpaper + veil as one two-layer background stack. Chosen over the two
-   approaches that failed on iOS:
-   - fixed pseudo-element layers (html::before / body::before): never covered
-     the screen on iOS (pseudo-element + fixed is unreliable there);
-   - canvas background with attachment: fixed: iOS zooms/pans the canvas
-     image against the changing toolbar viewport (image visibly scrolls and
-     re-scales) and exposes untinted bands at the scroll extremes.
-   A plain scroll-attached background on a fixed real div dodges both bugs:
-   no attachment:fixed => no canvas zoom/pan; the div follows the viewport on
-   scroll => static, exactly like desktop. One catch, visible in the user's
-   screenshots: on iOS the fixed containing block's edges sit *inside* the
-   screen (below the status bar, above the toolbar — even the ThemeToggle at
-   top:16px renders below the status-bar band), so a 4-side negative inset of
-   100px + the safe-area env() insets guarantees the painted box spans edge to
-   edge in every toolbar state. Whatever edge can remain (deep rubber-band
-   overscroll) lands on --canvas, sampled to each wallpaper's average color
-   under its veil, so it reads as backdrop, not a void. */
+/* Backdrop: full-screen static wallpaper + veil. iOS Safari forecloses the
+   two obvious mechanisms (proven empirically on-device):
+   - position: fixed elements are clipped to the *visual viewport* rect —
+     they can never paint behind the status bar or the bottom toolbar, no
+     matter the overscan (bands persisted through inset:-80px and
+     calc(-100px - env(...)) builds);
+   - canvas backgrounds with background-attachment: fixed get zoomed to the
+     document length and panned against scroll (the "image scrolls and
+     dynamically zooms" build).
+   The workaround: the wallpaper lives inside a document-sized
+   overflow:hidden frame (absolute — paints the *full* screen, bands
+   included, since document overflow is the full screen; the frame adds no
+   scroll overflow, so no feedback loop) and is counter-translated by
+   translateY(scrollY) via Motion — the exact pipeline this site's content
+   animations already run on, so the pin feels identical to the fades. The
+   120px overscan absorbs toolbar height + safe areas; --canvas (sampled per
+   theme) catches anything beyond, e.g. deep rubber-band overscroll. The
+   function-form transform also keeps Motion from compiling it onto the
+   native scroll-timeline path (iOS, see ScrollFade.jsx). */
 html {
-	background-color: var(--canvas);
+	background-color: var(--canvas); /* backdrop-tinted canvas: catches rubber-band overscroll beyond the frame */
+}
+
+#root {
+	position: relative; /* containing block for the backdrop frame */
 }
 
 .bgLayer {
-	position: fixed;
-	inset: -100px;
-	inset: calc(-100px - env(safe-area-inset-top)) calc(-100px - env(safe-area-inset-right)) calc(-100px - env(safe-area-inset-bottom)) calc(-100px - env(safe-area-inset-left));
+	position: absolute;
+	top: -80px; /* cancel body's top margin: frame must start at the document (screen) top */
+	left: calc(-1 * max(3vw, env(safe-area-inset-left)));
+	width: calc(100vw + max(3vw, env(safe-area-inset-left)) + max(3vw, env(safe-area-inset-right)));
+	/* = html's scroll extent: body margin-box = #root height + its 80px top
+	   margin + its bottom margin (80px + env()). Using anything larger would
+	   grow the document, and with it the scroll range, forever. */
+	height: calc(100% + 160px + env(safe-area-inset-bottom));
+	overflow: hidden; /* contains the overscanned paper; frame itself never grows the document */
+	z-index: -1;
+	pointer-events: none;
+}
+
+.bgPaper {
+	position: absolute;
+	top: -120px;
+	left: -120px;
+	width: calc(100% + 240px);
+	height: calc(100lvh + 240px); /* lvh = constant per orientation => no re-zoom as toolbars morph */
 	background-image: linear-gradient(var(--overlay), var(--overlay)), var(--bg-image);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	z-index: -1;
-	pointer-events: none;
+	will-change: transform;
 }
 
 .themeToggle {
