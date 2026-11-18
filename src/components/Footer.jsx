@@ -18,7 +18,7 @@ const Footer = () => {
         </ScrollFade>
         <ScrollFade>
           <div className="credits">
-            <span>Matthew Nesbitt 2025</span>
+            <span>Matthew Nesbitt {new Date().getFullYear()}</span>
           </div>
         </ScrollFade>
       </div>

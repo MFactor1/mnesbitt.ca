@@ -18,13 +18,13 @@ export default function Home() {
         </div>
       </ScrollFade>
       <div className="bio" style={{ maxWidth: isMobile ? '100vw' : '50vw' }}>
-        <ScrollFade><p>Hi! I’m Matthew, a fourth-year Software Engineering student at McMaster University with a drive to <b>build</b>.</p></ScrollFade>
-        <ScrollFade><p>I <i>thrive</i> in environments where potocols are <i>optional</i>, oversight is <i>minimal</i>, and prototyping fast is a <i>top priority</i>.</p></ScrollFade>
+        <ScrollFade><p>Hi! I’m Matthew, a final-year Software Engineering student at McMaster University with a drive to <b>build</b>.</p></ScrollFade>
+        <ScrollFade><p>I <i>thrive</i> in environments where protocols are <i>optional</i>, oversight is <i>minimal</i>, and prototyping fast is a <i>top priority</i>.</p></ScrollFade>
         <ScrollFade><p>Right now I'm focused on:</p></ScrollFade>
         <ul>
-          <ScrollFade><li>Building and shipping the first major AI features to our customers at Evertz.</li></ScrollFade>
-          <ScrollFade><li>Rapidly iterating to create a real-time computer vision inference engine that beats alternatives like Ultralytics.</li></ScrollFade>
-          <ScrollFade><li>Building and deploying robust internal tools to train AI models in a large-scale scientific, reproducible manner.</li></ScrollFade>
+          <ScrollFade><li>Building <b>Lake</b>, a distributed LLM inference engine that pools your devices on a local network to <b>privately</b> run large language models too large for any single machine.</li></ScrollFade>
+          <ScrollFade><li>Leading Lake's system design, and building its Rust inference engine and runtime directly on ggml.</li></ScrollFade>
+          <ScrollFade><li>Finishing my Software Engineering degree at McMaster, graduating in 2027.</li></ScrollFade>
         </ul>
 			</div>
       <Footer />

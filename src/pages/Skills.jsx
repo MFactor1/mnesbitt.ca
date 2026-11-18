@@ -15,17 +15,17 @@ export default function Skills() {
         </ScrollFade>
         <ScrollFade>
           <p className='skillItem'>
-            <b><i>Languages:</i></b> Python, Java, golang, TypeScript/JavaScript, C/C++, Bash Script, SQL, HTML/CSS, LaTeX.
+            <b><i>Languages:</i></b> Rust, Go, Python, Java, TypeScript/JavaScript, C/C++, Bash, SQL, HTML/CSS, LaTeX, MATLAB.
           </p>
         </ScrollFade>
         <ScrollFade>
           <p className='skillItem'>
-            <b><i>Frameworks/Libraries:</i></b> PyTorch, TensorRT, ONNX, CUDA, numPy, React.JS, Expo, framer-motion, kivy, OpenCV, spaCy, Node.JS, JUnit, pytest.
+            <b><i>Frameworks/Libraries:</i></b> PyTorch, TensorRT, ONNX, CUDA, NumPy, ggml, llama.cpp, React.JS, Expo, framer-motion, kivy, OpenCV, spaCy, Node.JS, JUnit, pytest.
           </p>
         </ScrollFade>
         <ScrollFade>
           <p className='skillItem'>
-            <b><i>Tools:</i></b> git, vim, Linux, Docker, Jenkins, Jira, MS Office, Azure Blob Storage, GCS, Amazon S3, Make, rpm, dpkg, UML, Sonarqube.
+            <b><i>Tools:</i></b> git, vim, Linux, Docker, Jenkins, CI/CD, Jira, Azure, GCS, Amazon S3, HTTP, REST, Make, rpm, dpkg, UML, Sonarqube.
           </p>
         </ScrollFade>
       </div>

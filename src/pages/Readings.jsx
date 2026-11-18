@@ -18,7 +18,7 @@ export default function Readings() {
       </ScrollFade>
       <ScrollFade>
         <header className='readingsHeaders' style={{ textAlign: isMobile ? "center" : "left" }}>
-          Readings in Progress{ isMobile ? "" : ":" }
+          Completed Readings{ isMobile ? "" : ":" }
         </header>
       </ScrollFade>
       <ScrollFade>
@@ -43,7 +43,7 @@ export default function Readings() {
       </ScrollFade>
       <ScrollFade>
         <div className="imgPanel">
-          <img className="displayImage" src={humansHistory} alt="Cover of 'Is Math Real' by Eugenia Cheng" style={{ maxHeight: '33vh', maxWidth: '90vw', display: "block", marginLeft: isMobile ? "auto" : "0px", marginRight: "auto" }}/>
+          <img className="displayImage" src={humansHistory} alt="Cover of 'Humans: A Brief History Of How We F*cked It All Up' by Tom Phillips" style={{ maxHeight: '33vh', maxWidth: '90vw', display: "block", marginLeft: isMobile ? "auto" : "0px", marginRight: "auto" }}/>
         </div>
       </ScrollFade>
       <ScrollFade>
