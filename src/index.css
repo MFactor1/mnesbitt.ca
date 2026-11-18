@@ -21,6 +21,7 @@
 	--text: #ffffff;
 	--bg-image: url('./assets/backspash/Aurora_Mac.jpg');
 	--overlay: rgba(0, 0, 0, 0.6);
+	--canvas: #1a1722; /* sampled: Aurora average under the 0.6 veil */
 	color-scheme: dark;
 }
 
@@ -28,6 +29,7 @@ html[data-theme="light"] {
 	--text: #24252a;
 	--bg-image: url('./assets/backspash/BOP_Mac.jpg');
 	--overlay: rgba(255, 255, 255, 0.75);
+	--canvas: #dbcbcc; /* sampled: BOP average under the 0.75 veil */
 	color-scheme: light;
 }
 
@@ -54,24 +56,38 @@ body {
 	margin: 0;
 }
 
-/* Backdrop: wallpaper + veil painted as one background stack on the root
-   element (= the canvas), NOT on position:fixed pseudo-elements. The canvas
-   is the only thing guaranteed to cover the entire screen on iOS — including
-   the notch curves, the area behind the status bar, and whatever band Safari
-   exposes as its toolbars expand/compact — whereas fixed insets resolve
-   against a smaller rect there (and re-anchor when toolbar state changes),
-   leaving gaps at the top/bottom edges. Two layers, one paint area: the veil
-   is a solid gradient (first = on top) over the cover-sized image; both are
-   canvas-fixed, so they can never drift apart or miss an edge. */
+/* Backdrop: a real fixed-position element (rendered in App.jsx) painting the
+   wallpaper + veil as one two-layer background stack. Chosen over the two
+   approaches that failed on iOS:
+   - fixed pseudo-element layers (html::before / body::before): never covered
+     the screen on iOS (pseudo-element + fixed is unreliable there);
+   - canvas background with attachment: fixed: iOS zooms/pans the canvas
+     image against the changing toolbar viewport (image visibly scrolls and
+     re-scales) and exposes untinted bands at the scroll extremes.
+   A plain scroll-attached background on a fixed real div dodges both bugs:
+   no attachment:fixed => no canvas zoom/pan; the div follows the viewport on
+   scroll => static, exactly like desktop. One catch, visible in the user's
+   screenshots: on iOS the fixed containing block's edges sit *inside* the
+   screen (below the status bar, above the toolbar — even the ThemeToggle at
+   top:16px renders below the status-bar band), so a 4-side negative inset of
+   100px + the safe-area env() insets guarantees the painted box spans edge to
+   edge in every toolbar state. Whatever edge can remain (deep rubber-band
+   overscroll) lands on --canvas, sampled to each wallpaper's average color
+   under its veil, so it reads as backdrop, not a void. */
 html {
+	background-color: var(--canvas);
+}
+
+.bgLayer {
+	position: fixed;
+	inset: -100px;
+	inset: calc(-100px - env(safe-area-inset-top)) calc(-100px - env(safe-area-inset-right)) calc(-100px - env(safe-area-inset-bottom)) calc(-100px - env(safe-area-inset-left));
 	background-image: linear-gradient(var(--overlay), var(--overlay)), var(--bg-image);
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
-	background-attachment: fixed, fixed;
-	/* Best-effort theme crossfade: browsers that can interpolate the veil
-	   gradient animate it; others snap (the image layer never animates). */
-	transition: background-image 0.3s ease;
+	z-index: -1;
+	pointer-events: none;
 }
 
 .themeToggle {

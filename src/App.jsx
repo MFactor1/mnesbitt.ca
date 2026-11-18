@@ -109,6 +109,7 @@ export default function App() {
 
   return (
     <>
+      <div className="bgLayer" aria-hidden="true"></div> {/* fixed full-screen wallpaper+veil (see .bgLayer in index.css for why) */}
       <div style = {{ position: 'absolute', height: '101vh', width: '1px', top: '0px', left: '0px' }}></div> {/* empty div forcing a scroll bar on all pages (otherwise ForceScrollUpdate won't work)*/}
         {!isMobile && <ThemeToggle />}
         <header className="headerbar">
