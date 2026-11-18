@@ -7,6 +7,8 @@ import resume from './assets/Resume.pdf'
 
 import useIsMobile from './components/IsMobile'
 import ScrollFade from './components/ScrollFade'
+import ThemeToggle from './components/ThemeToggle'
+import { PageStaggerContext } from './components/PageStaggerContext'
 import { ForceScrollUpdate } from './components/ForceScrollUpdate' // Force useScroll() update on page change
                                                                    // since it doesn't automatically due to a bug
 
@@ -101,24 +103,31 @@ function Nav() {
 
 export default function App() {
   const isMobile = useIsMobile();
+  const location = useLocation();
+  // Fresh per-page stagger counter on every navigation (see PageStaggerContext)
+  const pageStagger = React.useMemo(() => ({ current: 0 }), [location.pathname]);
 
   return (
     <>
       <div style = {{ position: 'absolute', height: '101vh', width: '1px', top: '0px', left: '0px' }}></div> {/* empty div forcing a scroll bar on all pages (otherwise ForceScrollUpdate won't work)*/}
+        {!isMobile && <ThemeToggle />}
         <header className="headerbar">
+          {isMobile && <div className="mobileThemeRow"><ThemeToggle inline /></div>}
           <ScrollFade>
             <h1 className="title" style={{ textAlign: isMobile ? "center" : "left" }}>Matthew Nesbitt</h1>
           </ScrollFade>
           <Nav />
         </header>
         <main className="bodypages" style={{ marginLeft: isMobile ? "0px" : "20px" }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/experience" element={<Experience />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/readings" element={<Readings />} />
-          </Routes>
+          <PageStaggerContext.Provider value={pageStagger}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/experience" element={<Experience />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/skills" element={<Skills />} />
+              <Route path="/readings" element={<Readings />} />
+            </Routes>
+          </PageStaggerContext.Provider>
         </main>
       <Analytics />
     </>
