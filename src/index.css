@@ -33,12 +33,25 @@ html[data-theme="light"] {
 
 body {
 	font-family: Global, sans-serif;
-	margin: 80px 3vw;
+	/* Safe-area aware: with viewport-fit=cover the viewport spans the whole
+	   screen, so horizontal margins must clear the notch/rounded corners,
+	   and bottom padding must clear the home indicator. env() resolves to 0
+	   off notched devices, leaving the original 80px/3vw spacing intact. */
+	margin: 80px max(3vw, env(safe-area-inset-right)) calc(80px + env(safe-area-inset-bottom)) max(3vw, env(safe-area-inset-left));
 	font-size: 14px;
 	padding: 0;
 	height: 100%;
 	color: var(--text);
 	transition: color 0.3s ease;
+}
+
+/* Experience bullet groups. These were previously orphaned <li>s (no <ul>),
+   whose outside markers hung left of the content box — off-screen on small
+   viewports (iOS Safari clips them). As real <ul>s they keep a padding that
+   always contains the marker, while their margins stay as the old <div>s. */
+.jobPoints {
+	padding-left: 24px;
+	margin: 0;
 }
 
 /* Backdrop layers: wallpaper (html::before) + darkening/lightening veil
