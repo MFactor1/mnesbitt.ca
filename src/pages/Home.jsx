@@ -26,6 +26,10 @@ export default function Home() {
           <ScrollFade><li>Leading Lake's system design, and building its Rust inference engine and runtime directly on ggml.</li></ScrollFade>
           <ScrollFade><li>Finishing my Software Engineering degree at McMaster, graduating in 2027.</li></ScrollFade>
         </ul>
+        <ScrollFade><p>Open-source contributions:</p></ScrollFade>
+        <ul>
+          <ScrollFade><li><a href="https://github.com/jellydator/ttlcache" target="_blank">jellydator/ttlcache</a></li></ScrollFade>
+        </ul>
 			</div>
       <Footer />
 		</>

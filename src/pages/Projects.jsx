@@ -28,7 +28,6 @@ export default function Projects() {
         <ProjectRayTracer projectId='11' />
         <ProjectWindex projectId='10' />
         <ProjectGeoLens projectId='9' />
-        <ProjectTTLCache projectId='13' />
         <ProjectAccCom projectId='1' />
         <ProjectGAC projectId='2'/>
         <ProjectNoteFlow projectId='3' />
@@ -248,26 +247,6 @@ function ProjectGeoLens({ projectId }) {
         <span className="showMore" onClick={() => toggleProject(projectId)}>
           {isExpanded ? 'Show Less' : '-> Show More'}
         </span>
-      </ScrollFade>
-    </>
-  );
-}
-
-function ProjectTTLCache({ projectId }) {
-  return (
-    <>
-      <ScrollFade>
-        <header className="projectHeader">
-          <a className="projectTitle" href="https://github.com/jellydator/ttlcache" target="_blank">ttlcache</a>
-          <p className="projectSkills">Built With: Go</p>
-        </header>
-      </ScrollFade>
-      <ScrollFade>
-        <div className="projectDesc">
-          <p>
-            Open-source contributor.
-          </p>
-        </div>
       </ScrollFade>
     </>
   );

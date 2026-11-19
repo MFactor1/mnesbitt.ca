@@ -141,6 +141,13 @@ html {
 	max-width: 50vw;
 }
 
+/* Inline links in the bio (e.g. open-source contributions): same text-color
+   convention as the site's other links, but keeping the default underline
+   since these sit in body text, unlike nav/project links. */
+.bio a {
+	color: var(--text);
+}
+
 .jobTitle {
 	margin-bottom: 1px;
 	margin-top: 30px;
